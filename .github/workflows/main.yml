@@ -1,0 +1,32 @@
+name: Bot Calendario Economico
+
+on:
+  schedule:
+    # Este comando define o intervalo. 
+    # '*/30 * * * 1-5' significa: A cada 30 minutos, de segunda a sexta.
+    - cron: '*/30 * * * 1-5'
+  workflow_dispatch: # Permite que você rode o bot manualmente para testar
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Rodar o Bot
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python bot.py
