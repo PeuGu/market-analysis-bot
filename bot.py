@@ -49,3 +49,14 @@ def buscar_noticias():
         print(f"Erro: {e}")
         return []
         
+if __name__ == "__main__":
+    # Força uma mensagem de teste para saber se a conexão com o Telegram está OK
+    enviar_telegram("🤖 O bot foi iniciado e está procurando notícias...")
+    
+    noticias = buscar_noticias()
+    if noticias:
+        for n in noticias:
+            enviar_telegram(n)
+    else:
+        print("Nenhuma notícia de alto impacto encontrada.")
+                
